@@ -153,24 +153,21 @@
 
     // 根据用户选择作出响应
     function handleResponse(response) {
-      const resultDiv = document.getElementById("result");
       if (response === 'yes') {
-        resultDiv.textContent = "❤️❤️❤️有了你，我仿佛找到了生命中最美的风景，幸福就在每一个与你相伴的瞬间 ❤️❤️❤️";
         showThirdPage("❤️❤️❤️有了你，我仿佛找到了生命中最美的风景，幸福就在每一个与你相伴的瞬间 ❤️❤️❤️");
       } else {
-        resultDiv.textContent = "有些爱，注定要经过时光的沉淀，我依然会在你身边，静静守护，等待那一刻的到来！";
         showThirdPage("有些爱，注定要经过时光的沉淀，我依然会在你身边，静静守护，等待那一刻的到来！");
       }
     }
 
     // 显示第三页
     function showThirdPage(text) {
-      document.getElementById("secondPage").style.display = "none";
-      document.getElementById("responseText").textContent = text;
-      document.getElementById("thirdPage").style.display = "block";
+      document.getElementById("secondPage").style.display = "none"; // 隐藏第二页
+      document.getElementById("responseText").textContent = text;   // 设置第三页文本
+      document.getElementById("thirdPage").style.display = "block"; // 显示第三页
       setTimeout(() => {
-        showFourthPage();
-      }, 5000); // 5秒后显示第四页
+        showFourthPage(); // 5秒后显示第四页
+      }, 5000);
     }
 
     // 显示第四页
@@ -178,8 +175,8 @@
       document.getElementById("thirdPage").style.display = "none";
       document.getElementById("fourthPage").style.display = "block";
       setTimeout(() => {
-        showFifthPage();
-      }, 5000); // 5秒后显示第五页
+        showFifthPage(); // 5秒后显示第五页
+      }, 5000);
     }
 
     // 显示第五页
