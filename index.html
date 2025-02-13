@@ -10,7 +10,7 @@
       color: white;
       font-family: Arial, sans-serif;
       text-align: center;
-      padding-top: 50px;
+      padding-top: 40px;
       margin: 0;
       overflow: hidden;
     }
@@ -20,8 +20,8 @@
       color: white;
       font-size: 24px;
       text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
-      max-width: 90%;  /* 限制最大宽度 */
-      word-wrap: break-word;  /* 使文字超出时自动换行 */
+      max-width: 90%;
+      word-wrap: break-word;
     }
     button {
       padding: 10px 20px;
@@ -42,8 +42,8 @@
       margin-top: 20px;
       font-size: 4vw;
       color: pink;
-      max-width: 90%; 
-      word-wrap: break-word;  
+      max-width: 90%;
+      word-wrap: break-word;
       margin-left: auto;
       margin-right: auto;
       text-align: center;
@@ -62,7 +62,7 @@
       top: 20%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 4vw;
+      font-size: 3vw;
       color: pink;
       text-shadow: 2px 2px 10px rgba(255, 192, 203, 0.8);
       opacity: 1;
@@ -74,9 +74,9 @@
       text-align: center;
     }
     .page img {
-      width: 30%; /* 图片宽度 */
+      width: 30%;
       margin: 10px;
-      border-radius: 10px; /* 圆角 */
+      border-radius: 10px;
     }
     #nextPageBtn {
       font-size: 3vw;
@@ -89,10 +89,10 @@
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .page h1, .page p {
-        font-size: 5vw; /* Smaller font size on mobile */
+        font-size: 5vw;
       }
       .page img {
-        width: 80%; /* 手机端图片宽度 */
+        width: 80%;
       }
     }
   </style>
@@ -103,18 +103,18 @@
   
   <!-- 第1页内容 -->
   <div id="message">
-    英子，我有一段话想对你说~<br><br>
-    亲爱的，从遇见你的那一刻起，我的世界便多了一抹色彩
+    <p>英子，我有一段话想对你说~</p>
+    <p>亲爱的，从遇见你的那一刻起，我的世界便多了一抹色彩</p>
   </div>
 
   <!-- 翻页按钮 -->
-  <button id="nextPageBtn" onclick="showSecondPage()">下一页</button>
+  <button id="nextPageBtn" onclick="showSecondPage()">爱你😘</button>
 
   <!-- 第2页内容 -->
   <div id="secondPage" class="page">
     <h1>今天，我想正式邀请你，成为我生命中最重要的人。</h1>
     <p>你愿意做我的女朋友吗？</p>
-    <button id="yesBtn" onclick="handleResponse('yes')">答应你</button>
+    <button id="yesBtn" onclick="handleResponse('yes')">答应我</button>
     <button id="noBtn" onclick="handleResponse('no')">再想想</button>
   </div>
 
@@ -149,8 +149,8 @@
       document.getElementById("message").style.opacity = "0";
       setTimeout(() => {
         document.getElementById("message").style.display = "none";
-        document.getElementById("nextPageBtn").style.display = "none"; // 隐藏翻页按钮
-        document.getElementById("secondPage").style.display = "block"; // 显示第二页
+        document.getElementById("nextPageBtn").style.display = "none";
+        document.getElementById("secondPage").style.display = "block";
       }, 1000);
     }
 
@@ -165,11 +165,11 @@
 
     // 显示第三页
     function showThirdPage(text) {
-      document.getElementById("secondPage").style.display = "none"; // 隐藏第二页
-      document.getElementById("responseText").textContent = text;   // 设置第三页文本
-      document.getElementById("thirdPage").style.display = "block"; // 显示第三页
+      document.getElementById("secondPage").style.display = "none";
+      document.getElementById("responseText").textContent = text;
+      document.getElementById("thirdPage").style.display = "block";
       setTimeout(() => {
-        showFourthPage(); // 5秒后显示第四页
+        showFourthPage();
       }, 5000);
     }
 
@@ -178,24 +178,25 @@
       document.getElementById("thirdPage").style.display = "none";
       document.getElementById("fourthPage").style.display = "block";
       setTimeout(() => {
-        showFifthPage(); // 5秒后显示第五页
+        showFifthPage();
       }, 5000);
     }
 
-    // 显示第五页
+    // 显示第五页，并启动心形动画和弹幕效果
     function showFifthPage() {
       document.getElementById("fourthPage").style.display = "none";
       document.getElementById("fifthPage").style.display = "block";
       document.getElementById("pinkboard").style.display = "block";
-      startHeartAnimation(); // 启动心形动画
-      startDanmu();         // 开始弹幕效果
+      startHeartAnimation();
+      startDanmu();
     }
 
-    // 弹幕相关代码
+    // 弹幕相关文字列表
     const messages = [
       "从遇见你的那天起，我的世界便只有你！",
-      "我爱你，像风走了八千里，不问归期！",
-       "想申请成为你的固定设备，开机密码是你的吻！",
+      "我爱你，像风走了八万里，不问归期！",
+      "你是我永不降级的VIP，特权代码：LOVE2YZ1314！",
+      "想申请成为你的固定设备，开机密码是你的吻！",
       "你是我心跳加速的唯一理由！",
       "我想和你一起，从心动到古稀！",
       "我会用一生守护你的笑容！",
@@ -206,7 +207,6 @@
       "想牵着你的手，走到世界的尽头！",
       "爱你是星辰大海，永不枯竭！",
       "你是我生命中最美的诗篇！",
-      "你是我永不降级的VIP，特权代码：LOVE2YZ1314！",
       "你一笑，我的世界便春暖花开！",
       "警告！你已成功偷走我的心！",
       "你的微笑是我每天的维生素！",
@@ -228,39 +228,54 @@
       "我的爱已通过ISO9001认证，终身质保！"
     ];
 
+    // 创建单条弹幕
     function createDanmu() {
       const danmu = document.createElement("div");
       danmu.className = "danmu";
       danmu.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-      let topPosition = Math.random() * 20 + 60;  // 弹幕出现在心形下方
+      let topPosition = Math.random() * 20 + 60;  // 弹幕出现在心形动画下方
       while (danmuTopPositions.includes(topPosition)) {
-        topPosition = Math.random() * 20 + 60;  // 如果发生重叠，重新随机位置
+        topPosition = Math.random() * 20 + 60;
       }
-      danmuTopPositions.push(topPosition);  
+      danmuTopPositions.push(topPosition);
 
-      danmu.style.top = `${topPosition}%`;  
-      danmu.style.left = "0%";  
+      danmu.style.top = `${topPosition}%`;
+      danmu.style.left = "0%";
       document.body.appendChild(danmu);
 
-      const duration = Math.random() * 8 + 6;  // 加快弹幕的滚动速度
+      const screenWidth = window.innerWidth;
+      const duration = 15000; // 弹幕滚动15秒
+
       danmu.animate(
-        [{ transform: "translateX(0%)" }, { transform: "translateX(100%)" }],
-        { duration: duration * 1000, iterations: 1 }
+        [{ transform: "translateX(0)" }, { transform: `translateX(${screenWidth}px)` }],
+        { duration: duration, iterations: 1, easing: "linear" }
       );
 
       setTimeout(() => {
         danmu.remove();
-        danmuTopPositions = danmuTopPositions.filter(position => position !== topPosition); 
-      }, duration * 1000);
+        danmuTopPositions = danmuTopPositions.filter(position => position !== topPosition);
+      }, duration);
     }
 
+    // 优化后的弹幕启动函数（使用 requestAnimationFrame 动态生成）
     function startDanmu() {
-      setInterval(createDanmu, 5000);  // 增加弹幕的间隔时间
+      let lastTime = 0;
+      const interval = 5000; // 每隔5秒生成一条弹幕
+
+      function loop(timestamp) {
+        if (timestamp - lastTime >= interval) {
+          createDanmu();
+          lastTime = timestamp;
+        }
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
     }
 
+    // 心形动画相关代码
     function startHeartAnimation() {
-      var settings = {
+      const settings = {
         particles: {
           length: 500,    
           duration: 2,    
@@ -270,27 +285,31 @@
         }
       };
 
-      // RequestAnimationFrame polyfill
+      // Polyfill for requestAnimationFrame
       (function(){
-        var b = 0, c = ["ms", "moz", "webkit", "o"];
-        for (var a = 0; a < c.length && !window.requestAnimationFrame; a++){
-          window.requestAnimationFrame = window[c[a] + "RequestAnimationFrame"];
-          window.cancelAnimationFrame = window[c[a] + "CancelAnimationFrame"] || window[c[a] + "CancelRequestAnimationFrame"];
+        var lastTime = 0;
+        var vendors = ['ms', 'moz', 'webkit', 'o'];
+        for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+          window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+          window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
+                                     || window[vendors[x]+'CancelRequestAnimationFrame'];
         }
-        if (!window.requestAnimationFrame) {
-          window.requestAnimationFrame = function(h, e) {
-            var d = new Date().getTime();
-            var f = Math.max(0, 16 - (d - b));
-            var g = window.setTimeout(function() { h(d + f); }, f);
-            b = d + f;
-            return g;
+        if (!window.requestAnimationFrame)
+          window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+              timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
           };
-        }
-        if (!window.cancelAnimationFrame) {
-          window.cancelAnimationFrame = function(d) { clearTimeout(d); };
-        }
-      })();
+        if (!window.cancelAnimationFrame)
+          window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+          };
+      }());
 
+      // 定义基本的点和粒子类
       var Point = function(x, y) {
         this.x = (typeof x !== 'undefined') ? x : 0;
         this.y = (typeof y !== 'undefined') ? y : 0;
@@ -417,6 +436,7 @@
       var particleRate = settings.particles.length / settings.particles.duration;
       var time;
 
+      // 根据参数 t 返回心形上的一个点
       function pointOnHeart(t) {
         return new Point(
           160 * Math.pow(Math.sin(t), 3),
@@ -424,6 +444,7 @@
         );
       }
 
+      // 创建一个临时画布，绘制心形图案，作为粒子图片
       var image = (function() {
         var dummyCanvas = document.createElement('canvas');
         var dummyContext = dummyCanvas.getContext('2d');
