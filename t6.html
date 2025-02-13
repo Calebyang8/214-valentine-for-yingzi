@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表白互动</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+      margin: 0;
+      overflow: hidden;
+    }
+    .danmu {
+      position: absolute;
+      white-space: nowrap;
+      color: white;
+      font-size: 24px;
+      text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin: 10px;
+      cursor: pointer;
+      display: inline-block;
+      background-color: rgba(255, 105, 180, 0.8);
+      border: none;
+      border-radius: 5px;
+      color: white;
+      transition: transform 0.2s ease;
+    }
+    button:hover {
+      transform: scale(1.1);
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 24px;
+      color: pink;
+    }
+    /* Canvas覆盖整个屏幕，初始隐藏 */
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      display: none;
+    }
+    #message {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 6vw;
+      color: pink;
+      text-shadow: 2px 2px 10px rgba(255, 192, 203, 0.8);
+      opacity: 1;
+      transition: opacity 1s;
+    }
+    @media (max-width: 768px) {
+      #message {
+        font-size: 8vw;
+      }
+      button {
+        font-size: 4vw;
+      }
+    }
+  </style>
+</head>
+<body onclick="showOptions()">
+  <div id="message">
+    英子英子我爱你，就像老鼠爱大米<br>
+    现在正式邀请你做我女朋友<br>
+    <small>请随意点击空白处，开始选择</small>
+  </div>
+
+  <h1 id="question" style="display: none;">亲爱的，我有一段话想对你说~</h1>
+  <p id="prompt" style="display: none;">你愿意做我的女朋友吗？</p>
+  <button id="yesBtn" onclick="handleResponse('yes')">愿意</button>
+  <button id="noBtn" onclick="handleResponse('no')">不愿意</button>
+  <div id="result"></div>
+
+  <!-- 用于心形粒子动画的canvas -->
+  <canvas id="pinkboard"></canvas>
+
+  <script>
+    // 点击页面后隐藏初始表白文本，显示问题和按钮
+    function showOptions() {
+      document.getElementById("message").style.opacity = "0";
+      setTimeout(() => {
+        document.getElementById("message").style.display = "none";
+        document.getElementById("question").style.display = "block";
+        document.getElementById("prompt").style.display = "block";
+        document.getElementById("yesBtn").style.display = "inline-block";
+        document.getElementById("noBtn").style.display = "inline-block";
+      }, 1000);
+    }
+
+    // 根据用户选择作出响应
+    function handleResponse(response) {
+      const resultDiv = document.getElementById("result");
+      if (response === 'yes') {
+        resultDiv.textContent = "❤️❤️❤️ 太棒了！你让我成为了世界上最幸福的人！ ❤️❤️❤️";
+        document.getElementById("pinkboard").style.display = "block";
+        startHeartAnimation(); // 调用新的心形动画
+        startDanmu();         // 开始弹幕效果
+      } else {
+        resultDiv.textContent = "� 没关系，我会继续努力，直到你的回答变成 'yes'！";
+      }
+    }
+
+    // 弹幕相关代码
+    const messages = [
+     "英子，你是我此生唯一的偏爱！",
+      "从遇见你的那天起，我的世界便只有你！",
+      "我爱你，像风走了八千里，不问归期！",
+      "你是我心跳加速的唯一理由！",
+      "我想和你一起，从心动到古稀！",
+      "我会用一生守护你的笑容！",
+      "未来的每一天，我都想和你一起度过！",
+      "我愿做你的港湾，无论风雨，永远为你停靠！",
+      "你的幸福，是我一生的使命！",
+      "我会陪你走过每一个春夏秋冬！",
+      "早安晚安，只想对你说！",
+      "你的名字是我写过最美的情书！",
+      "想和你一起看遍世间所有的风景！",
+      "你是我生命中最美的意外！",
+      "想牵着你的手，走到世界的尽头！",
+      "你是我心中的月光，温柔又明亮！",
+      "爱你是星辰大海，永不枯竭！",
+      "你是我生命中最美的诗篇！",
+      "你一笑，我的世界便春暖花开！",
+      "你是我心中的唯一，无可替代！",
+      "警告！你已成功偷走我的心！",
+      "你的微笑是我每天的维生素！",
+      "想把你藏进口袋，走到哪带到哪！",
+      "你是我心中的小太阳，照亮我的每一天！",
+      "你的名字是我最喜欢的三个字！",
+      "无论未来如何，我都会在你身边！",
+      "我会用行动证明，爱你不是说说而已！",
+      "你的每一滴眼泪，我都会用心擦干！",
+      "我会陪你笑，陪你闹，陪你到老！",
+      "你是我此生唯一的执着！",
+      "想和你一起看日出日落，直到白头！",
+      "未来的每一天，都想和你一起度过！",
+      "我们的故事，才刚刚开始！",
+      "想和你一起，书写属于我们的未来！",
+      "你是我未来计划中最重要的部分！",
+      "还记得我们第一次相遇的那天吗？",
+      "你是我生命中最美的奇迹！",
+      "每次见到你，我的心都会漏跳一拍！",
+      "你是我心中最柔软的角落！",
+      "你的笑容是我最珍贵的宝藏！",
+      "英子，你是我此生唯一的答案！",
+      "我爱你，胜过昨日，略逊明日！",
+      "你是我心中永不熄灭的光！",
+      "我想和你一起，直到时间的尽头！",
+      "你是我生命中最美的风景！",
+      "英子，我愿用一生守护你！",
+      "你是我心中最柔软的部分！",
+      "我爱你，从过去到现在，直到未来！",
+      "你是我此生唯一的挚爱！",
+      "英子，我可能不是完美代码，但愿为你终身迭代！",
+      "我的爱已通过ISO9001认证，终身质保！",
+      "你是我永不降级的VIP，特权代码：LOVE2YZ1314！",
+      "想申请成为你的固定设备，开机密码是你的吻！",
+      "宇宙级认证：英子❤️洋——匹配度100%"
+    ];
+
+    function createDanmu() {
+      const danmu = document.createElement("div");
+      danmu.className = "danmu";
+      danmu.textContent = messages[Math.floor(Math.random() * messages.length)];
+      danmu.style.top = `${Math.random() * 100}vh`;
+      danmu.style.left = "100%";
+      document.body.appendChild(danmu);
+
+      const duration = Math.random() * 20 + 10;
+      danmu.animate(
+        [{ transform: "translateX(100%)" }, { transform: "translateX(-100%)" }],
+        { duration: duration * 1000, iterations: 1 }
+      );
+
+      setTimeout(() => danmu.remove(), duration * 1000);
+    }
+
+    function startDanmu() {
+      setInterval(createDanmu, 2000);
+    }
+
+    // -------------------------------
+    // 使用你提供的代码实现心形粒子动画
+    function startHeartAnimation() {
+      var settings = {
+        particles: {
+          length: 500,    // 最大粒子数
+          duration: 2,    // 粒子存活时间（秒）
+          velocity: 100,  // 粒子速度（像素/秒）
+          effect: -0.75,  // 调整运动效果
+          size: 30        // 粒子尺寸（像素）
+        }
+      };
+
+      // RequestAnimationFrame polyfill
+      (function(){
+        var b = 0, c = ["ms", "moz", "webkit", "o"];
+        for (var a = 0; a < c.length && !window.requestAnimationFrame; a++){
+          window.requestAnimationFrame = window[c[a] + "RequestAnimationFrame"];
+          window.cancelAnimationFrame = window[c[a] + "CancelAnimationFrame"] || window[c[a] + "CancelRequestAnimationFrame"];
+        }
+        if (!window.requestAnimationFrame) {
+          window.requestAnimationFrame = function(h, e) {
+            var d = new Date().getTime();
+            var f = Math.max(0, 16 - (d - b));
+            var g = window.setTimeout(function() { h(d + f); }, f);
+            b = d + f;
+            return g;
+          };
+        }
+        if (!window.cancelAnimationFrame) {
+          window.cancelAnimationFrame = function(d) { clearTimeout(d); };
+        }
+      })();
+
+      // 定义 Point 类
+      var Point = function(x, y) {
+        this.x = (typeof x !== 'undefined') ? x : 0;
+        this.y = (typeof y !== 'undefined') ? y : 0;
+      };
+      Point.prototype.clone = function() {
+        return new Point(this.x, this.y);
+      };
+      Point.prototype.length = function(length) {
+        if (typeof length === 'undefined')
+          return Math.sqrt(this.x * this.x + this.y * this.y);
+        this.normalize();
+        this.x *= length;
+        this.y *= length;
+        return this;
+      };
+      Point.prototype.normalize = function() {
+        var len = this.length();
+        this.x /= len;
+        this.y /= len;
+        return this;
+      };
+
+      // 定义 Particle 类
+      var Particle = function() {
+        this.position = new Point();
+        this.velocity = new Point();
+        this.acceleration = new Point();
+        this.age = 0;
+      };
+      Particle.prototype.initialize = function(x, y, dx, dy) {
+        this.position.x = x;
+        this.position.y = y;
+        this.velocity.x = dx;
+        this.velocity.y = dy;
+        this.acceleration.x = dx * settings.particles.effect;
+        this.acceleration.y = dy * settings.particles.effect;
+        this.age = 0;
+      };
+      Particle.prototype.update = function(deltaTime) {
+        this.position.x += this.velocity.x * deltaTime;
+        this.position.y += this.velocity.y * deltaTime;
+        this.velocity.x += this.acceleration.x * deltaTime;
+        this.velocity.y += this.acceleration.y * deltaTime;
+        this.age += deltaTime;
+      };
+      Particle.prototype.draw = function(context, image) {
+        function ease(t) {
+          return (--t) * t * t + 1;
+        }
+        var size = image.width * ease(this.age / settings.particles.duration);
+        context.globalAlpha = 1 - this.age / settings.particles.duration;
+        context.drawImage(image,
+          this.position.x - size / 2,
+          this.position.y - size / 2,
+          size, size);
+      };
+
+      // 定义 ParticlePool 类（循环队列实现）
+      var ParticlePool = function(length) {
+        this.particles = new Array(length);
+        for (var i = 0; i < this.particles.length; i++) {
+          this.particles[i] = new Particle();
+        }
+        this.firstActive = 0;
+        this.firstFree = 0;
+        this.duration = settings.particles.duration;
+      };
+      ParticlePool.prototype.add = function(x, y, dx, dy) {
+        this.particles[this.firstFree].initialize(x, y, dx, dy);
+        this.firstFree++;
+        if (this.firstFree === this.particles.length)
+          this.firstFree = 0;
+        if (this.firstActive === this.firstFree) {
+          this.firstActive++;
+          if (this.firstActive === this.particles.length)
+            this.firstActive = 0;
+        }
+      };
+      ParticlePool.prototype.update = function(deltaTime) {
+        var i;
+        if (this.firstActive < this.firstFree) {
+          for (i = this.firstActive; i < this.firstFree; i++) {
+            this.particles[i].update(deltaTime);
+          }
+        } else if (this.firstFree < this.firstActive) {
+          for (i = this.firstActive; i < this.particles.length; i++) {
+            this.particles[i].update(deltaTime);
+          }
+          for (i = 0; i < this.firstFree; i++) {
+            this.particles[i].update(deltaTime);
+          }
+        }
+        while (this.particles[this.firstActive].age >= this.duration &&
+               this.firstActive !== this.firstFree) {
+          this.firstActive++;
+          if (this.firstActive === this.particles.length)
+            this.firstActive = 0;
+        }
+      };
+      ParticlePool.prototype.draw = function(context, image) {
+        var i;
+        if (this.firstActive < this.firstFree) {
+          for (i = this.firstActive; i < this.firstFree; i++) {
+            this.particles[i].draw(context, image);
+          }
+        } else if (this.firstFree < this.firstActive) {
+          for (i = this.firstActive; i < this.particles.length; i++) {
+            this.particles[i].draw(context, image);
+          }
+          for (i = 0; i < this.firstFree; i++) {
+            this.particles[i].draw(context, image);
+          }
+        }
+      };
+
+      // 获取 canvas 及上下文
+      var canvas = document.getElementById('pinkboard');
+      var context = canvas.getContext('2d');
+      var particles = new ParticlePool(settings.particles.length);
+      var particleRate = settings.particles.length / settings.particles.duration;
+      var time;
+
+      // 返回心形曲线上某点坐标（参数 t 范围 -π 到 π）
+      function pointOnHeart(t) {
+        return new Point(
+          160 * Math.pow(Math.sin(t), 3),
+          130 * Math.cos(t) - 50 * Math.cos(2 * t) - 20 * Math.cos(3 * t) - 10 * Math.cos(4 * t) + 25
+        );
+      }
+
+      // 利用一个临时 canvas 创建粒子图形
+      var image = (function() {
+        var dummyCanvas = document.createElement('canvas');
+        var dummyContext = dummyCanvas.getContext('2d');
+        dummyCanvas.width = settings.particles.size;
+        dummyCanvas.height = settings.particles.size;
+        function to(t) {
+          var point = pointOnHeart(t);
+          point.x = settings.particles.size / 2 + point.x * settings.particles.size / 350;
+          point.y = settings.particles.size / 2 - point.y * settings.particles.size / 350;
+          return point;
+        }
+        dummyContext.beginPath();
+        var t = -Math.PI;
+        var pt = to(t);
+        dummyContext.moveTo(pt.x, pt.y);
+        while(t < Math.PI) {
+          t += 0.01;
+          pt = to(t);
+          dummyContext.lineTo(pt.x, pt.y);
+        }
+        dummyContext.closePath();
+        dummyContext.fillStyle = '#ea80b0';
+        dummyContext.fill();
+        var img = new Image();
+        img.src = dummyCanvas.toDataURL();
+        return img;
+      })();
+
+      // 渲染循环
+      function render() {
+        requestAnimationFrame(render);
+        var newTime = new Date().getTime() / 1000;
+        var deltaTime = newTime - (time || newTime);
+        time = newTime;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        var amount = particleRate * deltaTime;
+        for (var i = 0; i < amount; i++) {
+          var pos = pointOnHeart(Math.PI - 2 * Math.PI * Math.random());
+          var dir = pos.clone().length(settings.particles.velocity);
+          particles.add(canvas.width / 2 + pos.x, canvas.height / 2 - pos.y, dir.x, -dir.y);
+        }
+        particles.update(deltaTime);
+        particles.draw(context, image);
+      }
+
+      // 根据容器尺寸调整 canvas 大小
+      function onResize() {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+      }
+      window.addEventListener("resize", onResize);
+      onResize();
+      render();
+    }
+  </script>
+</body>
+</html>
