@@ -99,7 +99,7 @@
 </head>
 <body>
   <!-- 背景音乐 -->
-  <audio id="bgm" src="https://你的用户名.github.io/仓库名/告白气球.mp3" loop autoplay></audio>
+  <audio id="bgm" src="http://music.163.com/song/media/outer/url?id=2308549.mp3" loop autoplay></audio>
   
   <!-- 第1页内容 -->
   <div id="message">
@@ -167,7 +167,7 @@
       document.getElementById("thirdPage").style.display = "block";
       setTimeout(() => {
         showFourthPage();
-      }, 5000);
+      }, 10000);
     }
 
     // 显示第四页
@@ -176,7 +176,7 @@
       document.getElementById("fourthPage").style.display = "block";
       setTimeout(() => {
         showFifthPage();
-      }, 5000);
+      }, 10000);
     }
 
     // 显示第五页，并启动心形动画和弹幕效果
@@ -258,7 +258,7 @@
     // 优化后的弹幕启动函数（使用 requestAnimationFrame 动态生成）
     function startDanmu() {
       let lastTime = 0;
-      const interval = 5000; // 每隔5秒生成一条弹幕
+      const interval = 4500; // 每隔5秒生成一条弹幕
 
       function loop(timestamp) {
         if (timestamp - lastTime >= interval) {
