@@ -20,14 +20,14 @@
       color: white;
       font-size: 24px;
       text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
-      max-width: 90%;  
-      word-wrap: break-word; 
+      max-width: 90%;  /* 限制最大宽度 */
+      word-wrap: break-word;  /* 使文字超出时自动换行 */
     }
     button {
       padding: 10px 20px;
       font-size: 18px;
       margin: 10px;
-      cursor: pointer; 
+      cursor: pointer;
       display: inline-block;
       background-color: rgba(255, 105, 180, 0.8);
       border: none;
@@ -48,18 +48,14 @@
       margin-right: auto;
       text-align: center;
     }
-
-    /*
-    Canvas覆盖整个屏幕，初始隐藏，但在第三页显示时设置为可见
-    */
     canvas {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;  
-      transform: translate(-50%, -50%);
+      pointer-events: none;
+      display: none;
     }
     #message {
       position: absolute;
@@ -72,19 +68,15 @@
       opacity: 1;
       transition: opacity 1s;
     }
-    #secondPage {
-      display: none;
-      font-size: 2vw; 
-    }
-    #thirdPage {
+    .page {
       display: none;
       font-size: 2vw;
       text-align: center;
     }
-    #thirdPage img {
-      width: 30%; 
+    .page img {
+      width: 30%; /* 图片宽度 */
       margin: 10px;
-      border-radius: 10px; 
+      border-radius: 10px; /* 圆角 */
     }
     #nextPageBtn {
       font-size: 3vw;
@@ -94,13 +86,13 @@
       transform: translateX(-50%);
       background-color: rgba(255, 105, 180, 0.8);
     }
-
+    /* Responsive adjustments */
     @media (max-width: 768px) {
-      #secondPage h1, #secondPage p {
-        font-size: 5vw; 
+      .page h1, .page p {
+        font-size: 5vw; /* Smaller font size on mobile */
       }
-      #thirdPage img {
-        width: 80%; 
+      .page img {
+        width: 80%; /* 手机端图片宽度 */
       }
     }
   </style>
@@ -116,27 +108,35 @@
   <button id="nextPageBtn" onclick="showSecondPage()">下一页</button>
 
   <!-- 第2页内容 -->
-  <div id="secondPage">
-    <h1>英子，你是我生命中最重要的人，我想和你一起走过未来的每一个瞬间。</h1>
-    <p>你愿意成为我的女朋友吗？</p>
+  <div id="secondPage" class="page">
+    <h1>今天，我想正式邀请你，成为我生命中最重要的人。</h1>
+    <p>你愿意做我的女朋友吗？</p>
     <button id="yesBtn" onclick="handleResponse('yes')">愿意</button>
     <button id="noBtn" onclick="handleResponse('no')">不愿意</button>
   </div>
 
-  <!-- 第3页内容 -->
-  <div id="thirdPage">
-    <h1>宇宙级认证：英子❤️洋——匹配度100%</h1>
+  <!-- 第3页内容（用户选择后的结果） -->
+  <div id="thirdPage" class="page">
+    <h1 id="responseText"></h1>
+    <img src="fig1.jpg" alt="我们的回忆1">
+  </div>
+
+  <!-- 第4页内容（我们的照片） -->
+  <div id="fourthPage" class="page">
+    <h1>我们的回忆</h1>
     <div>
-      <img src="fig1.jpg" alt="我们的回忆1">
       <img src="fig2.jpg" alt="我们的回忆2">
       <img src="fig3.jpg" alt="我们的回忆3">
     </div>
   </div>
 
-  <div id="result"></div>
+  <!-- 第5页内容（心形动画+弹幕） -->
+  <div id="fifthPage" class="page">
+    <h1>我想对英子说的话</h1>
+    <canvas id="pinkboard"></canvas>
+  </div>
 
-  <!-- 用于心形粒子动画的canvas -->
-  <canvas id="pinkboard" style="display: none;"></canvas>
+  <div id="result"></div>
 
   <script>
     let danmuTopPositions = []; // 用于存储弹幕的top位置，防止重叠
@@ -155,22 +155,40 @@
     function handleResponse(response) {
       const resultDiv = document.getElementById("result");
       if (response === 'yes') {
-        resultDiv.textContent = "❤️❤️❤️谢谢你，英子！我会用一生守护你，爱你到永远 ❤️❤️❤️";
-        document.getElementById("pinkboard").style.display = "block";
-        startHeartAnimation(); // 调用心形动画
-        startDanmu();         // 开始弹幕效果
-        setTimeout(() => {
-          showThirdPage(); // 显示第三页
-          document.getElementById("secondPage").style.display = "none";
-        }, 5000); // 5秒后显示第三页
+        resultDiv.textContent = "❤️❤️❤️有了你，我仿佛找到了生命中最美的风景，幸福就在每一个与你相伴的瞬间 ❤️❤️❤️";
+        showThirdPage("❤️❤️❤️有了你，我仿佛找到了生命中最美的风景，幸福就在每一个与你相伴的瞬间 ❤️❤️❤️");
       } else {
         resultDiv.textContent = "有些爱，注定要经过时光的沉淀，我依然会在你身边，静静守护，等待那一刻的到来！";
+        showThirdPage("有些爱，注定要经过时光的沉淀，我依然会在你身边，静静守护，等待那一刻的到来！");
       }
     }
 
     // 显示第三页
-    function showThirdPage() {
+    function showThirdPage(text) {
+      document.getElementById("secondPage").style.display = "none";
+      document.getElementById("responseText").textContent = text;
       document.getElementById("thirdPage").style.display = "block";
+      setTimeout(() => {
+        showFourthPage();
+      }, 5000); // 5秒后显示第四页
+    }
+
+    // 显示第四页
+    function showFourthPage() {
+      document.getElementById("thirdPage").style.display = "none";
+      document.getElementById("fourthPage").style.display = "block";
+      setTimeout(() => {
+        showFifthPage();
+      }, 5000); // 5秒后显示第五页
+    }
+
+    // 显示第五页
+    function showFifthPage() {
+      document.getElementById("fourthPage").style.display = "none";
+      document.getElementById("fifthPage").style.display = "block";
+      document.getElementById("pinkboard").style.display = "block";
+      startHeartAnimation(); // 启动心形动画
+      startDanmu();         // 开始弹幕效果
     }
 
     // 弹幕相关代码
@@ -272,9 +290,10 @@
         }
       };
 
-      (function() {
+      // RequestAnimationFrame polyfill
+      (function(){
         var b = 0, c = ["ms", "moz", "webkit", "o"];
-        for (var a = 0; a < c.length && !window.requestAnimationFrame; a++) {
+        for (var a = 0; a < c.length && !window.requestAnimationFrame; a++){
           window.requestAnimationFrame = window[c[a] + "RequestAnimationFrame"];
           window.cancelAnimationFrame = window[c[a] + "CancelAnimationFrame"] || window[c[a] + "CancelRequestAnimationFrame"];
         }
@@ -430,7 +449,6 @@
         var dummyContext = dummyCanvas.getContext('2d');
         dummyCanvas.width = settings.particles.size;
         dummyCanvas.height = settings.particles.size;
-
         function to(t) {
           var point = pointOnHeart(t);
           point.x = settings.particles.size / 2 + point.x * settings.particles.size / 350;
