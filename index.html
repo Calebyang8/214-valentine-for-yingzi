@@ -99,7 +99,7 @@
 </head>
 <body>
   <!-- 背景音乐 -->
-  <audio id="bgm" src="https://dlink.host/musics/aHR0cHM6Ly9vbmVkcnYtbXkuc2hhcmVwb2ludC5jb20vOnU6L2cvcGVyc29uYWwvc3Rvcl9vbmVkcnZfb25taWNyb3NvZnRfY29tL0VYSVlzeFpRbUVwRmdNeTM1d1FqUUtJQjh6WEFIdnNrNHN2RWlPSWVRTHBwZVE.mp3" loop autoplay></audio>
+  <audio id="bgm" src="https://dlink.host/musics/aHR0cHM6Ly9vbmVkcnYtbXkuc2hhcmVwb2ludC5jb20vOnU6L2cvcGVyc29uYWwvc3Rvcl9vbmVkcnZfb25taWNyb3NvZnRfY29tL0VYSVlzeFpRbUVwRmdNeTM1d1FqUUtJQjh6WEFIdnNrNHN2RWlPSWVRTHBwZVE.mp3" loop autoplay controls></audio>
  
   <!-- 第1页内容 -->
   <div id="message">
@@ -142,6 +142,10 @@
     // 确保音频在用户交互后自动播放
     document.addEventListener('click', function() {
       const bgm = document.getElementById('bgm');
+      // 设置音量为最大
+      bgm.volume = 1.0;
+
+      // 播放音频
       if (bgm.paused) {
         bgm.play().catch(error => console.log('音频播放失败:', error));
       }
