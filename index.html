@@ -139,6 +139,15 @@
   <div id="result"></div>
 
   <script>
+    // 确保音频在用户交互后自动播放
+    document.addEventListener('click', function() {
+      const bgm = document.getElementById('bgm');
+      if (bgm.paused) {
+        bgm.play().catch(error => console.log('音频播放失败:', error));
+      }
+    });
+
+    // 你的其他JavaScript代码
     let danmuTopPositions = []; // 用于存储弹幕的top位置，防止重叠
 
     // 点击页面后隐藏初始表白文本，显示第二页
